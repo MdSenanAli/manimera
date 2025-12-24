@@ -196,7 +196,7 @@ class Settings:
         self._set_temp_media_dir()
 
         # Logging Data at End
-        self._log_panel(level, profile)
+        self._log_panel(level.name, profile)
 
 
 SETTINGS = Settings()

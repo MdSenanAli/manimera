@@ -7,14 +7,11 @@ warnings.filterwarnings("ignore", category=SyntaxWarning)
 from manim import *
 
 # Local Imports
-from .terminal import Banner, Monitor
-from .runtime import Settings, Quality
+from .terminal import *
+from .runtime import *
 
 # Version
 __version__ = "0.1.10"
-
-# Global Setting Object
-SETTINGS = Settings()
 
 # Print Banner And Monitor Execution
 if __name__ != "__main__":

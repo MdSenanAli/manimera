@@ -1,7 +1,13 @@
 from .settings import Quality
-from .settings import Settings
+
+from .settings import SETTINGS
+
+from .base_scene import ManimeraScene
+from .render import ManimeraRender
 
 __all__ = [
     "Quality",
-    "Settings",
+    "SETTINGS",
+    "ManimeraScene",
+    "ManimeraRender",
 ]
