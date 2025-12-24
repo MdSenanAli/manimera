@@ -16,6 +16,7 @@ __version__ = "0.1.8"
 # Set Environment
 load_dotenv()
 
+# Print Banner And Monitor Execution
 if __name__ != "__main__":
     Banner(
         library_name="Manimera",
