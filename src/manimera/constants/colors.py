@@ -1,3 +1,10 @@
+"""
+Manimera Colors Module.
+
+This module defines the color constants used throughout the Manimera library
+for messages, backgrounds, and themes.
+"""
+
 # ============================================================
 # MESSAGE COLOR CONSTANTS
 # ============================================================

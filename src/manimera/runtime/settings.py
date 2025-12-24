@@ -1,3 +1,11 @@
+"""
+Manimera Settings Module.
+
+This module manages the configuration and settings for Manimera renders.
+It defines render profiles (Quality), handles Manim configuration updates,
+and provides a singleton `Settings` class to manage these states.
+"""
+
 # ============================================================
 # IMPORTS
 # ============================================================
@@ -27,6 +35,9 @@ from ..constants import BACKGROUND_GREY
 
 
 class Quality(Enum):
+    """
+    Enumeration for render quality levels.
+    """
     MINIMAL = "minimal"
     STANDARD = "standard"
     PREMIUM = "premium"
@@ -39,6 +50,14 @@ class Quality(Enum):
 
 @dataclass(frozen=True)
 class RenderProfile:
+    """
+    Data class representing a render profile configuration.
+
+    Attributes:
+        width (int): The pixel width of the render.
+        height (int): The pixel height of the render.
+        fps (int): The frames per second of the render.
+    """
     width: int
     height: int
     fps: int
@@ -61,8 +80,10 @@ PROFILES: Final[Dict[Quality, RenderProfile]] = {
 
 class Settings:
     """
-    Singleton class to manage Manim render settings
-    and log them in a Rich panel.
+    Singleton class to manage Manim render settings.
+
+    This class handles the application of render profiles, configuration of
+    output directories and filenames, and logging of current settings.
     """
 
     # ========================================================
@@ -81,6 +102,13 @@ class Settings:
     # ========================================================
 
     def __init__(self, profiles: Dict[Quality, RenderProfile] = PROFILES):
+        """
+        Initialize the Settings instance.
+
+        Args:
+            profiles (Dict[Quality, RenderProfile], optional): A dictionary mapping
+                Quality enums to RenderProfile instances. Defaults to PROFILES.
+        """
         self.console = Console()
         self.profiles = profiles
 
@@ -89,18 +117,35 @@ class Settings:
     # ========================================================
 
     def _set_width(self, pixel_width: int = 1920):
+        """Set the pixel width in Manim config."""
         config.pixel_width = pixel_width
 
     def _set_height(self, pixel_height: int = 1080):
+        """Set the pixel height in Manim config."""
         config.pixel_height = pixel_height
 
     def _set_frame_rate(self, fps: int = 60):
+        """Set the frame rate in Manim config."""
         config.frame_rate = fps
 
     def _set_background(self, color: str = BACKGROUND_GREY):
+        """Set the background color in Manim config."""
         config.background_color = color
 
     def _set_caller_file(self, profile: RenderProfile):
+        """
+        Determine the caller file and set the output file path.
+
+        This method inspects the stack to find the file that initiated the render,
+        creates an export directory based on the resolution, and sets the
+        output filename with a timestamp.
+
+        Args:
+            profile (RenderProfile): The render profile being used.
+
+        Raises:
+            RuntimeError: If the call stack cannot be inspected.
+        """
         try:
             # Resolve caller file
             frame = inspect.stack()[-1]
@@ -125,9 +170,22 @@ class Settings:
         config.output_file = os.path.join(export_dir, filename)
 
     def _set_caching(self, value=False):
+        """Enable or disable caching in Manim config."""
         config.disable_caching = not value
 
     def _get_last_scene_instance(self, caller_file) -> str:
+        """
+        Parse the caller file to find the last defined Scene class.
+
+        Args:
+            caller_file (str): Path to the file to parse.
+
+        Returns:
+            str: The name of the last class inheriting from ManimeraScene.
+
+        Raises:
+            ValueError: If no suitable Scene class is found.
+        """
         with open(caller_file, "r", encoding="utf-8") as f:
             source = f.read()
 
@@ -146,6 +204,12 @@ class Settings:
         raise ValueError(f"No Scene Object in file: {caller_file}.")
 
     def _set_temp_media_dir(self, name: str = "manimera_media"):
+        """
+        Configure a temporary directory for media output.
+
+        Args:
+            name (str, optional): Name of the temp directory. Defaults to "manimera_media".
+        """
         base_temp = tempfile.gettempdir()
         media_dir = os.path.join(base_temp, name)
 
@@ -155,6 +219,10 @@ class Settings:
     def _log_panel(self, level: str, profile: RenderProfile):
         """
         Prints the current render settings in a Rich panel.
+
+        Args:
+            level (str): The name of the quality profile (e.g., "STANDARD").
+            profile (RenderProfile): The render profile details.
         """
         table = Table(show_header=False, box=None)
         table.add_row("Profile", level)
@@ -180,6 +248,13 @@ class Settings:
     def set_quality(self, level: Quality, caching: bool = True):
         """
         Sets render quality according to a preset profile.
+
+        Applies the resolution, frame rate, and other settings defined in the
+        selected quality profile. Also configures output paths and logging.
+
+        Args:
+            level (Quality): The quality level to apply (MINIMAL, STANDARD, PREMIUM).
+            caching (bool, optional): Whether to enable caching. Defaults to True.
         """
         profile = self.profiles[level]
 

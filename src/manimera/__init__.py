@@ -1,3 +1,11 @@
+"""
+Manimera Library.
+
+Manimera is a wrapper around Manim Community that provides a simplified
+interface for creating mathematical visualizations, with a focus on
+production pipelines and ease of use.
+"""
+
 # Entry Point To Manimera
 import warnings
 

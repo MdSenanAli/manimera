@@ -1,3 +1,11 @@
+"""
+Manimera Base Scene Module.
+
+This module defines the `ManimeraScene` class, which serves as the base class
+for all scenes in the Manimera library. It provides common functionality
+such as watermarking and abstract methods for scene creation.
+"""
+
 # ============================================================
 # IMPORTS
 # ============================================================
@@ -13,13 +21,27 @@ from .manager import ACTIVE_SCENE_MANAGER
 
 
 class ManimeraScene(Scene, ABC):
+    """
+    Base class for all Manimera scenes.
+
+    Inherits from `manim.Scene` and `abc.ABC`. This class enforces a structure
+    where the scene content is defined in the `create` method, and the `construct`
+    method handles the setup (e.g., adding a watermark) and execution.
+    """
+
     # ========================================================
     # PRIVATE HELPERS
     # ========================================================
 
     def __watermark(self, name="Senan"):
         """
-        Returns a small watermark at the bottom-left corner.
+        Create a watermark Mobject.
+
+        Args:
+            name (str, optional): The text to display in the watermark. Defaults to "Senan".
+
+        Returns:
+            Mobject: A configured Tex object positioned at the bottom-left corner.
         """
         return (
             Tex(name)
@@ -36,7 +58,10 @@ class ManimeraScene(Scene, ABC):
     @abstractmethod
     def create(self) -> None:
         """
-        Must be implemented by child classes to define scene content.
+        Define the scene content.
+
+        This abstract method must be implemented by subclasses to define the
+        animations and objects that make up the scene.
         """
         ...
 
@@ -45,6 +70,12 @@ class ManimeraScene(Scene, ABC):
     # ========================================================
 
     def __init_subclass__(cls, **kwargs):
+        """
+        Register the subclass with the ActiveSceneManager.
+
+        This method is called when a class inherits from `ManimeraScene`.
+        It automatically registers the new scene class as the active scene.
+        """
         super().__init_subclass__(**kwargs)
         ACTIVE_SCENE_MANAGER.set(cls)
 
@@ -54,8 +85,10 @@ class ManimeraScene(Scene, ABC):
 
     def construct(self) -> None:
         """
-        Entry point for Manim to render the scene.
-        Adds watermark, then calls the child's create() method.
+        Execute the scene construction logic.
+
+        This is the entry point for Manim to render the scene. It adds the
+        watermark and then calls the `create` method implemented by the subclass.
         """
         # Add Watermark
         self.add(self.__watermark("Senan"))

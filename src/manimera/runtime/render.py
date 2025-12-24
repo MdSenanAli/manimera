@@ -1,3 +1,11 @@
+"""
+Manimera Render Module.
+
+This module provides the `ManimeraRender` class, which handles the instantiation
+and rendering of Manim scenes. It integrates with the `ActiveSceneManager` to
+automatically detect the scene to render if none is explicitly provided.
+"""
+
 # ============================================================
 # IMPORTS
 # ============================================================
@@ -13,7 +21,10 @@ from .manager import ACTIVE_SCENE_MANAGER
 
 class ManimeraRender:
     """
-    Simple wrapper to render a Manim Scene class.
+    Wrapper class to render a Manim Scene.
+
+    This class simplifies the rendering process by automatically resolving
+    the active scene from the `ActiveSceneManager` if not provided.
     """
 
     # ========================================================
@@ -22,7 +33,13 @@ class ManimeraRender:
 
     def __init__(self, scene: Scene = None):
         """
-        If a Scene class is provided, instantiate and render it.
+        Initialize the renderer and execute the render loop.
+
+        If a scene class is provided, it is instantiated and rendered.
+        Otherwise, the active scene is retrieved from the `ActiveSceneManager`.
+
+        Args:
+            scene (Scene, optional): The scene class to render. Defaults to None.
         """
         if scene is None:
             scene = ACTIVE_SCENE_MANAGER.get()

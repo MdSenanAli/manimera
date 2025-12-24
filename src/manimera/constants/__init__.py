@@ -1,3 +1,10 @@
+"""
+Manimera Constants Package.
+
+This package exposes constant values used across the Manimera library,
+primarily focusing on color definitions.
+"""
+
 from .colors import MESSAGE_BLUE
 from .colors import MESSAGE_GREEN
 from .colors import MESSAGE_GREY
