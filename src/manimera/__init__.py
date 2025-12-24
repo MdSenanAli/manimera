@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from .terminal import Banner, Monitor
 
 # Version
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 
 # Set Environment
 load_dotenv()
