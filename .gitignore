@@ -208,3 +208,7 @@ __marimo__/
 
 # Custom Script
 scripts/
+
+# Export
+export/
+exports/

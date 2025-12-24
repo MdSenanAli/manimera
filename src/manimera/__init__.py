@@ -17,6 +17,9 @@ from manim import *
 # Local Imports
 from .terminal import *
 from .runtime import *
+from .theme import *
+from .components import *
+from .animations import *
 
 # Version
 __version__ = "0.1.13"

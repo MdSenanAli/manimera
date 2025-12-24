@@ -27,7 +27,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.console import Console
 
-from ..constants import BACKGROUND_GREY
+from ..theme import BACKGROUND_GREY
 
 # ============================================================
 # QUALITY

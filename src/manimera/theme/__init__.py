@@ -1,8 +1,7 @@
 """
-Manimera Constants Package.
+Manimera Theme Package.
 
-This package exposes constant values used across the Manimera library,
-primarily focusing on color definitions.
+This package manages visual themes, color palettes, and defaultstyles for Manimera animations.
 """
 
 from .colors import MESSAGE_BLUE
