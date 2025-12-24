@@ -18,7 +18,6 @@ version_pattern = "MAJOR.MINOR.PATCH"
 commit = true
 tag = true
 push = true
-tag_prefix = "v"
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
