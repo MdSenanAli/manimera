@@ -1,11 +1,14 @@
 # Entry Point To Manimera
+import warnings
+
+warnings.filterwarnings("ignore", category=SyntaxWarning)
 
 # External Libraries
 from manim import *
 from dotenv import load_dotenv
 
 # Local Imports
-from .terminal import print_banner
+from .terminal import Banner, Monitor
 
 # Version
 __version__ = "0.1.7"
@@ -14,4 +17,9 @@ __version__ = "0.1.7"
 load_dotenv()
 
 if __name__ != "__main__":
-    print_banner("Manimera", __version__, "Easy animations by Senan")
+    Banner(
+        library_name="Manimera",
+        library_version=__version__,
+        subtext="Mathematical visualization made simple by Senan",
+    )
+    Monitor()

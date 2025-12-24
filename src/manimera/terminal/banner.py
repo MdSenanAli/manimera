@@ -1,17 +1,37 @@
-# Imports
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
+from rich.style import Style
 
 
-def print_banner(library_name: str, library_version: str, subtext: str):
-    console = Console()
+class Banner:
+    def __init__(self, library_name: str, library_version: str, subtext: str = ""):
+        self.library_name = library_name
+        self.library_version = library_version
+        self.subtext = subtext
+        self.console = Console()
 
-    title = Text(library_name, style="bold blue")
-    title.append(f" v{library_version}", style="bold yellow")
+        self._show()
 
-    subtitle = Text(subtext, style="dim italic cyan")
+    def _show(self):
+        title = Text()
+        title.append(
+            f"{self.library_name}", style=Style(color="bright_magenta", bold=True)
+        )
+        title.append(
+            f" v{self.library_version}", style=Style(color="bright_yellow", bold=True)
+        )
 
-    panel = Panel(subtitle, title=title, border_style="bright_blue", padding=(1, 2))
+        subtitle = Text(
+            f"✨  {self.subtext}  ✨",
+            style=Style(color="bright_cyan", italic=True, bold=True),
+            justify="center",
+        )
 
-    console.print(panel)
+        panel = Panel(
+            subtitle,
+            title=title,
+            border_style="bright_magenta",
+            padding=(1, 4),
+        )
+        self.console.print(panel)
