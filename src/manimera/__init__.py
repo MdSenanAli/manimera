@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from .terminal import print_banner
 
 # Version
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 # Set Environment
 load_dotenv()
