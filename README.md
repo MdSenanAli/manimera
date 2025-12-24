@@ -44,12 +44,19 @@ Here’s a basic example of creating a simple animation:
 ```python
 from manimera import *
 
-class SceneName(ManimeraScene):
+SETTINGS.set_quality(Quality.PREMIUM)
+
+
+class CircleCreation(ManimeraScene):
     def create(self):
-        # Your Animation Logic Here
+        circle = Circle(1)
+        self.play(Create(circle))
+
 
 if __name__ == "__main__":
-    ManimeraRender(SceneName)
+    # This will auto-detect the latest `ManimeraScene` class and render it.
+    ManimeraRender()
+
 ```
 
 
