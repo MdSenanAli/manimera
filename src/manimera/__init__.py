@@ -11,7 +11,7 @@ from .terminal import *
 from .runtime import *
 
 # Version
-__version__ = "0.1.10"
+__version__ = "0.1.11"
 
 # Print Banner And Monitor Execution
 if __name__ != "__main__":
