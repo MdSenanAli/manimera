@@ -23,6 +23,3 @@ if __name__ != "__main__":
         subtext="Mathematical visualization made simple by Senan",
     )
     Monitor()
-    import time
-
-    time.sleep(100)
