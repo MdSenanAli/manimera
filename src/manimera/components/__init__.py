@@ -6,5 +6,9 @@ that are built from simpler primitives.
 """
 
 from .clock import Clock
+from .network_tower import NetworkTower
 
-__all__ = ["Clock"]
+__all__ = [
+    "Clock",
+    "NetworkTower",
+]
