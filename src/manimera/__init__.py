@@ -5,16 +5,16 @@ warnings.filterwarnings("ignore", category=SyntaxWarning)
 
 # External Libraries
 from manim import *
-from dotenv import load_dotenv
 
 # Local Imports
 from .terminal import Banner, Monitor
+from .runtime import Settings, Quality
 
 # Version
 __version__ = "0.1.9"
 
-# Set Environment
-load_dotenv()
+# Global Setting Object
+SETTINGS = Settings()
 
 # Print Banner And Monitor Execution
 if __name__ != "__main__":
