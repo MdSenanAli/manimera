@@ -11,7 +11,7 @@ from .terminal import Banner, Monitor
 from .runtime import Settings, Quality
 
 # Version
-__version__ = "0.1.9"
+__version__ = "0.1.10"
 
 # Global Setting Object
 SETTINGS = Settings()
