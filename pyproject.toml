@@ -14,6 +14,9 @@ dependencies = [
     "rich>=14.2.0",
 ]
 
+[project.scripts]
+manimera = "manimera.cli.main:main"
+
 [tool.bumpver]
 current_version = "0.2.3"
 version_pattern = "MAJOR.MINOR.PATCH"
