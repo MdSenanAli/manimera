@@ -109,6 +109,8 @@ class Settings:
                 Quality enums to RenderProfile instances. Defaults to PROFILES.
         """
         self.profiles = profiles
+        self._quality_set = False
+        self._banner_shown = False
 
     # ========================================================
     # PRIVATE HELPERS
@@ -242,6 +244,17 @@ class Settings:
             config.output_file
         )
 
+    def ensure_quality(self, level: Quality, caching: bool = True):
+        """
+        Ensure a quality level is set. If already set, this does nothing.
+        
+        Args:
+             level (Quality): Default quality level to apply if none set.
+             caching (bool): Default caching setting.
+        """
+        if not self._quality_set:
+            self.set_quality(level, caching)
+
     def set_quality(self, level: Quality, caching: bool = True):
         """
         Sets render quality according to a preset profile.
@@ -253,6 +266,7 @@ class Settings:
             level (Quality): The quality level to apply (MINIMAL, STANDARD, PREMIUM).
             caching (bool, optional): Whether to enable caching. Defaults to True.
         """
+        self._quality_set = True
         profile = self.profiles[level]
         
         # Store for printing later

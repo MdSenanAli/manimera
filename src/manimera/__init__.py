@@ -23,15 +23,3 @@ from .animations import *
 
 # Version
 __version__ = "0.2.3"
-
-# Print Banner And Monitor Execution
-if __name__ != "__main__":
-    # Print Banner
-    Banner(
-        library_name="Manimera",
-        library_version=__version__,
-        subtext="Mathematical visualization made simple by Senan",
-    )
-
-    # Set Default Quality
-    SETTINGS.set_quality(Quality.PREMIUM, caching=True)
