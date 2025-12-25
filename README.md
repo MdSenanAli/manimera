@@ -38,28 +38,68 @@ uv add manimera
 
 ---
 
+## Manimera CLI
+
+Manimera comes with a dedicated Command Line Interface (CLI) to help you manage your animation projects efficiently.
+
+### 1. Initialize a Project
+Create a new project structure with default chapters and utility scripts:
+```bash
+manimera init MyProject
+```
+This creates a hierarchy:
+- `Chapter-000` / `001` / `002`
+  - `assets/`: For your local media files.
+  - `export/`: Where your rendered videos and images go.
+- `scripts/`: Production utility scripts (like cleaning).
+
+### 2. Manage Chapters & Scenes
+Add new chapters or scenes with boilerplate code automatically generated:
+```bash
+# Add a new chapter
+manimera --add-chapter Introduction
+
+# Add a scene (must be run inside a chapter folder)
+manimera --add-scene MyFirstScene
+```
+
+### 3. Workflow Utilities
+Clean your project or finalize your renders:
+```bash
+# Remove cache and clean assets
+manimera clean
+
+# Copy the latest render to the 'final' directory with context-aware renaming
+manimera finalize # or use 'manimera mv'
+```
+
+### 4. List Project Structure
+See an overview of your project's chapters and scenes:
+```bash
+manimera list
+```
+
+---
+
 ## Quick Start
 
 Here’s a basic example of creating a simple animation:
 
 ```python
+# ClockCreation.py
 from manimera import *
 
-SETTINGS.set_quality(Quality.PREMIUM)
-
-
-class CircleCreation(ManimeraScene):
+# ClockCreation class
+class ClockCreation(ManimeraScene):
     def create(self):
-        circle = Circle(1)
-        self.play(Create(circle))
+        clock = Clock()
+        self.play(Create(clock))
 
-
+# Entry point
 if __name__ == "__main__":
-    # This will auto-detect the latest `ManimeraScene` class and render it.
-    ManimeraRender()
-
+    # This will auto-detect the `ClockCreation` class and render it.
+    ManimeraRender() 
 ```
-
 
 ---
 
