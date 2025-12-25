@@ -14,6 +14,7 @@ from abc import ABC, abstractmethod
 from manim import *
 
 from .manager import SCENE_MANAGER
+from ..terminal.monitor import MONITOR
 
 # ============================================================
 # MANIMERA SCENE BASE CLASS
@@ -94,4 +95,8 @@ class ManimeraScene(Scene, ABC):
         self.add(self.__watermark("Senan"))
 
         # Create content from child class
-        self.create()
+        try:
+            self.create()
+        except Exception as e:
+            MONITOR.set_termination_reason(f"Failed: {e}", "red", "✖")
+            raise e

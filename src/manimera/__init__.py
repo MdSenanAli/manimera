@@ -33,8 +33,5 @@ if __name__ != "__main__":
         subtext="Mathematical visualization made simple by Senan",
     )
 
-    # Monitor Execution
-    Monitor()
-
     # Set Default Quality
     SETTINGS.set_quality(Quality.STANDARD)

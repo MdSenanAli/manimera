@@ -7,10 +7,10 @@ banners and execution monitoring tools.
 
 # Relative Imports
 from .banner import Banner
-from .monitor import Monitor
+from .monitor import MONITOR
 
 # Wildcard Imports
 __all__ = [
     "Banner",
-    "Monitor",
+    "MONITOR",
 ]

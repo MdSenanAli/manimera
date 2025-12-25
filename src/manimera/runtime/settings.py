@@ -20,11 +20,13 @@ from enum import Enum
 from manim import config
 from typing import Dict
 from typing import Final
+from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass
 
 from ..theme import BACKGROUND_GREY
 from ..terminal.ui import print_render_settings
+from ..terminal.monitor import MONITOR
 
 # ============================================================
 # QUALITY
@@ -203,9 +205,8 @@ class Settings:
                         "ManimeraScene",
                     }:
                         return node.name
-
-        print(f"No ManimeraScene class found in file: {caller_file}.")
-        print("Please ensure your scene class inherits from 'ManimeraScene'.")
+        
+        MONITOR.set_termination_reason(f"No ManimeraScene class found in file: {Path(caller_file).name}.", "red", "✖")
         exit()
 
     def _set_temp_media_dir(self, name: str = "manimera_media"):

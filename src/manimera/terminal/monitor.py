@@ -25,6 +25,13 @@ class Monitor:
     It also displays a summary panel with the execution status and duration.
     """
 
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self, *, console: Console | None = None, precision: int = 2):
         """
         Initialize the Monitor instance.
@@ -37,11 +44,18 @@ class Monitor:
             precision (int, optional): The number of decimal places for the
                 execution duration display. Defaults to 2.
         """
+        if hasattr(self, "_initialized") and self._initialized:
+            return
+
         self._start = time.perf_counter()
         self._interrupted = False
         self._precision = precision
         self._console = console or Console()
         self._is_windows = platform.system() == "Windows"
+
+        self._termination_reason = "Execution completed"
+        self._termination_color = "green"
+        self._termination_icon = "✔"
 
         if not self._is_windows:
             # POSIX: isolate process group
@@ -49,6 +63,20 @@ class Monitor:
 
         signal.signal(signal.SIGINT, self._handle_sigint)
         atexit.register(self._handle_exit)
+        self._initialized = True
+
+    def set_termination_reason(self, reason: str, color: str = "red", icon: str = "✖"):
+        """
+        Set a custom termination message and style.
+
+        Args:
+            reason (str): The status message to display.
+            color (str, optional): The color of the panel border and text. Defaults to "red".
+            icon (str, optional): The icon to display. Defaults to "✖".
+        """
+        self._termination_reason = reason
+        self._termination_color = color
+        self._termination_icon = icon
 
     def _handle_sigint(self, *_):
         """
@@ -57,6 +85,7 @@ class Monitor:
         Sets the interrupted flag to True and raises KeyboardInterrupt.
         """
         self._interrupted = True
+        self.set_termination_reason("Execution interrupted", "yellow", "⏹")
         raise KeyboardInterrupt
 
     def _terminate_children(self):
@@ -93,20 +122,18 @@ class Monitor:
         duration = f"{elapsed:.{self._precision}f}s"
 
         text = Text(
-            (
-                f"⏹  Execution interrupted · {duration}"
-                if self._interrupted
-                else f"✔  Execution completed · {duration}"
-            ),
-            style="yellow" if self._interrupted else "green",
+            f"{self._termination_icon}  {self._termination_reason} · {duration}",
+            style=self._termination_color,
             justify="center",
         )
 
         panel = Panel(
             text,
-            border_style="yellow" if self._interrupted else "green",
+            border_style=self._termination_color,
             padding=(0, 2),
         )
 
         self._console.print(panel)
         self._terminate_children()
+
+MONITOR = Monitor()
