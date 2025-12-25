@@ -22,31 +22,52 @@ from .utils import get_project_root, print_success, print_error, print_info, CON
 
 def clean_project():
     """
-    Remove all 'export' and '__pycache__' directories in the project.
+    Remove all '__pycache__' directories entirely,
+    and remove contents of 'assets' directories without deleting the directory itself.
     """
     try:
         root = get_project_root()
-        
-        dirnames = ["__pycache__", "export"]
-        deleted = 0
-        
-        if not Confirm.ask(f"Are you sure you want to delete all {dirnames} folders in [cyan]{root.name}[/]?"):
+
+        deleted_pycache = 0
+        cleaned_assets = 0
+
+        if not Confirm.ask(
+            f"Are you sure you want to clean '__pycache__' and contents of 'assets' in [cyan]{root.name}[/]?"
+        ):
             print_info("Operation cancelled.")
             return
 
-        for dirpath in root.rglob("*/"):
-            if dirpath.name in dirnames:
+        for dirpath in root.rglob("*"):
+            # Remove __pycache__ completely
+            if dirpath.is_dir() and dirpath.name == "__pycache__":
                 try:
                     shutil.rmtree(dirpath)
-                    CONSOLE.print(f"[green] - {dirpath.relative_to(root)}[/]")
-                    deleted += 1
+                    CONSOLE.print(f"[green] - removed {dirpath.relative_to(root)}[/]")
+                    deleted_pycache += 1
                 except Exception:
-                    CONSOLE.print(f"[red] - {dirpath.relative_to(root)}[/]")
+                    CONSOLE.print(f"[red] - failed {dirpath.relative_to(root)}[/]")
 
-        print_success(f"Deleted {deleted} directories.")
+            # Clean assets directory contents only
+            elif dirpath.is_dir() and dirpath.name == "assets":
+                for item in dirpath.iterdir():
+                    try:
+                        if item.is_dir():
+                            shutil.rmtree(item)
+                        else:
+                            item.unlink()
+                    except Exception:
+                        CONSOLE.print(f"[red] - failed {item.relative_to(root)}[/]")
+                CONSOLE.print(f"[green] - cleaned contents of {dirpath.relative_to(root)}[/]")
+                cleaned_assets += 1
+
+        print_success(
+            f"Removed {deleted_pycache} '__pycache__' directories "
+            f"and cleaned {cleaned_assets} 'assets' directories."
+        )
 
     except FileNotFoundError:
         print_error("Not inside a Manimera project.")
+
 
 
 def finalize_video():
