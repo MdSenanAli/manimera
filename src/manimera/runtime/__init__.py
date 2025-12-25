@@ -9,8 +9,8 @@ from .settings import Quality
 
 from .settings import SETTINGS
 
-from .base_scene import ManimeraScene
-from .render import ManimeraRender
+from .scene import ManimeraScene
+from .engine import ManimeraRender
 
 __all__ = [
     "Quality",

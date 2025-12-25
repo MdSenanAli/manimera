@@ -13,7 +13,7 @@ such as watermarking and abstract methods for scene creation.
 from abc import ABC, abstractmethod
 from manim import *
 
-from .manager import ACTIVE_SCENE_MANAGER
+from .manager import SCENE_MANAGER
 
 # ============================================================
 # MANIMERA SCENE BASE CLASS
@@ -77,7 +77,7 @@ class ManimeraScene(Scene, ABC):
         It automatically registers the new scene class as the active scene.
         """
         super().__init_subclass__(**kwargs)
-        ACTIVE_SCENE_MANAGER.set(cls)
+        SCENE_MANAGER.set_active(cls)
 
     # ========================================================
     # CONSTRUCT

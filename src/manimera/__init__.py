@@ -26,9 +26,15 @@ __version__ = "0.2.0"
 
 # Print Banner And Monitor Execution
 if __name__ != "__main__":
+    # Print Banner
     Banner(
         library_name="Manimera",
         library_version=__version__,
         subtext="Mathematical visualization made simple by Senan",
     )
+
+    # Monitor Execution
     Monitor()
+
+    # Set Default Quality
+    SETTINGS.set_quality(Quality.STANDARD)

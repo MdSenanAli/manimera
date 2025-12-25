@@ -11,6 +11,7 @@ and provides a singleton `Settings` class to manage these states.
 # ============================================================
 
 import os
+import re
 import ast
 import inspect
 import tempfile
@@ -22,12 +23,8 @@ from typing import Final
 from datetime import datetime
 from dataclasses import dataclass
 
-from rich.text import Text
-from rich.panel import Panel
-from rich.table import Table
-from rich.console import Console
-
 from ..theme import BACKGROUND_GREY
+from ..terminal.ui import print_render_settings
 
 # ============================================================
 # QUALITY
@@ -109,7 +106,6 @@ class Settings:
             profiles (Dict[Quality, RenderProfile], optional): A dictionary mapping
                 Quality enums to RenderProfile instances. Defaults to PROFILES.
         """
-        self.console = Console()
         self.profiles = profiles
 
     # ========================================================
@@ -155,17 +151,24 @@ class Settings:
 
         caller_dir = os.path.dirname(os.path.abspath(caller_file))
 
-        # export/{width}x{height}/
+        # Resolve scene name
+        scene_name = self._get_last_scene_instance(caller_file)
+        
+        # Convert to snake_case for filename
+        snake_name = re.sub(r'(?<!^)(?=[A-Z])', '_', scene_name).lower()
+
+        # Resolution string
         resolution = f"{profile.width}x{profile.height}"
-        export_dir = os.path.join(caller_dir, "export", resolution)
+        
+        # Structure: export/{SCENE_NAME}/{RESOLUTION}/
+        export_dir = os.path.join(caller_dir, "export", scene_name, resolution)
         os.makedirs(export_dir, exist_ok=True)
 
-        # Scene name
-        scene_name = self._get_last_scene_instance(caller_file)
-
-        # Timestamped filename
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{timestamp}-{scene_name}"
+        # Sorted, human-readable timestamp: YYYY-MM-DD_HH-MM-SS
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        
+        # Filename: snake_name-timestamp
+        filename = f"{snake_name}-{timestamp}"
 
         config.output_file = os.path.join(export_dir, filename)
 
@@ -201,7 +204,9 @@ class Settings:
                     }:
                         return node.name
 
-        raise ValueError(f"No Scene Object in file: {caller_file}.")
+        print(f"No ManimeraScene class found in file: {caller_file}.")
+        print("Please ensure your scene class inherits from 'ManimeraScene'.")
+        exit()
 
     def _set_temp_media_dir(self, name: str = "manimera_media"):
         """
@@ -215,31 +220,6 @@ class Settings:
 
         os.makedirs(media_dir, exist_ok=True)
         config.media_dir = media_dir
-
-    def _log_panel(self, level: str, profile: RenderProfile):
-        """
-        Prints the current render settings in a Rich panel.
-
-        Args:
-            level (str): The name of the quality profile (e.g., "STANDARD").
-            profile (RenderProfile): The render profile details.
-        """
-        table = Table(show_header=False, box=None)
-        table.add_row("Profile", level)
-        table.add_row("Width", f"{profile.width} px")
-        table.add_row("Height", f"{profile.height} px")
-        table.add_row("FPS", f"{profile.fps}")
-        table.add_row("Background", str(config.background_color))
-        table.add_row("Caching", str(not config.disable_caching))
-        table.add_row("Save Last Frame", str(config.save_last_frame))
-        table.add_row("Frame Width", f"{config.frame_width:.2f} units")
-        table.add_row("Frame Height", f"{config.frame_height:.2f} units")
-        table.add_row("Media Dir", f"{config.media_dir}")
-        table.add_row("Output File", f"{config.output_file}")
-
-        title = Text("Render Settings", style="bold cyan")
-        panel = Panel(table, title=title, border_style="cyan", padding=(1, 2))
-        self.console.print(panel)
 
     # ========================================================
     # PUBLIC INTERFACE
@@ -271,7 +251,7 @@ class Settings:
         self._set_temp_media_dir()
 
         # Logging Data at End
-        self._log_panel(level.name, profile)
+        print_render_settings(level.name, profile, config, config.output_file)
 
 
 SETTINGS = Settings()

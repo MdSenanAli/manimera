@@ -12,7 +12,7 @@ automatically detect the scene to render if none is explicitly provided.
 
 from manim import Scene
 
-from .manager import ACTIVE_SCENE_MANAGER
+from .manager import SCENE_MANAGER
 
 # ============================================================
 # STUDIO RENDER CLASS
@@ -42,7 +42,7 @@ class ManimeraRender:
             scene (Scene, optional): The scene class to render. Defaults to None.
         """
         if scene is None:
-            scene = ACTIVE_SCENE_MANAGER.get()
+            scene = SCENE_MANAGER.get_active()
 
         if scene is None:
             print("No Active Scenes Detected.")

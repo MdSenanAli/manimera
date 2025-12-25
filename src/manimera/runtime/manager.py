@@ -9,7 +9,7 @@ dynamic scene resolution during runtime.
 from typing import Type, Optional
 
 
-class ActiveSceneManager:
+class SceneManager:
     """
     Singleton manager for tracking the currently active scene.
 
@@ -17,7 +17,7 @@ class ActiveSceneManager:
     to set, get, and clear the active scene class.
     """
 
-    _instance: Optional["ActiveSceneManager"] = None
+    _instance: Optional["SceneManager"] = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -25,7 +25,7 @@ class ActiveSceneManager:
             cls._instance._active_scene = None
         return cls._instance
 
-    def set(self, scene_cls: Type) -> None:
+    def set_active(self, scene_cls: Type) -> None:
         """
         Set the active scene class.
 
@@ -34,7 +34,7 @@ class ActiveSceneManager:
         """
         self._active_scene = scene_cls
 
-    def get(self) -> Optional[Type]:
+    def get_active(self) -> Optional[Type]:
         """
         Retrieve the currently active scene class.
 
@@ -43,7 +43,7 @@ class ActiveSceneManager:
         """
         return self._active_scene
 
-    def clear(self) -> None:
+    def clear_active(self) -> None:
         """
         Clear the active scene.
 
@@ -53,4 +53,4 @@ class ActiveSceneManager:
 
 
 # Singleton instance
-ACTIVE_SCENE_MANAGER = ActiveSceneManager()
+SCENE_MANAGER = SceneManager()
