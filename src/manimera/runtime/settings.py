@@ -226,6 +226,22 @@ class Settings:
     # PUBLIC INTERFACE
     # ========================================================
 
+    def print_settings(self):
+        """
+        Print the currently applied render settings to the terminal.
+        """
+        # If set_quality hasn't been called, we can't print meaningful profile info 
+        # unless we track the 'current_level'. Let's assume set_quality sets it.
+        if not hasattr(self, "_current_level") or not hasattr(self, "_current_profile"):
+             return
+
+        print_render_settings(
+            self._current_level.name, 
+            self._current_profile, 
+            config, 
+            config.output_file
+        )
+
     def set_quality(self, level: Quality, caching: bool = True):
         """
         Sets render quality according to a preset profile.
@@ -238,6 +254,10 @@ class Settings:
             caching (bool, optional): Whether to enable caching. Defaults to True.
         """
         profile = self.profiles[level]
+        
+        # Store for printing later
+        self._current_level = level
+        self._current_profile = profile
 
         self._set_caching(caching)
         self._set_width(profile.width)
@@ -250,9 +270,6 @@ class Settings:
 
         # Temp media directory with constant name
         self._set_temp_media_dir()
-
-        # Logging Data at End
-        print_render_settings(level.name, profile, config, config.output_file)
 
 
 SETTINGS = Settings()

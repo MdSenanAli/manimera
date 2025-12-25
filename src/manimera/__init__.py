@@ -34,4 +34,4 @@ if __name__ != "__main__":
     )
 
     # Set Default Quality
-    SETTINGS.set_quality(Quality.STANDARD)
+    SETTINGS.set_quality(Quality.PREMIUM, caching=True)

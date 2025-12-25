@@ -14,6 +14,7 @@ from abc import ABC, abstractmethod
 from manim import *
 
 from .manager import SCENE_MANAGER
+from .settings import SETTINGS
 from ..terminal.monitor import MONITOR
 
 # ============================================================
@@ -91,6 +92,9 @@ class ManimeraScene(Scene, ABC):
         This is the entry point for Manim to render the scene. It adds the
         watermark and then calls the `create` method implemented by the subclass.
         """
+        # Print Settings (Ensures we print the latest configuration)
+        SETTINGS.print_settings()
+
         # Add Watermark
         self.add(self.__watermark("Senan"))
 
