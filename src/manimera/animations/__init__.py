@@ -7,5 +7,10 @@ visual effects and transitions.
 
 from .advance_clock_time import AdvanceClockTime
 from .pendulum_oscillation import PendulumOscillation
+from .lamp_glow import LampGlow
 
-__all__ = ["AdvanceClockTime", "PendulumOscillation"]
+__all__ = [
+    "AdvanceClockTime",
+    "PendulumOscillation",
+    "LampGlow",
+]
