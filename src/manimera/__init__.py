@@ -7,7 +7,7 @@ production pipelines and ease of use.
 """
 
 # Version
-__version__ = "0.4.2"
+__version__ = "0.4.3"
 
 # Entry Point To Manimera
 import warnings
