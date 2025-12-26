@@ -40,44 +40,82 @@ uv add manimera
 
 ## Manimera CLI
 
-Manimera comes with a dedicated Command Line Interface (CLI) to help you manage your animation projects efficiently.
+Manimera includes a streamlined Command Line Interface (CLI) for creating, organizing, and managing Manim-based animation projects.
 
 ### 1. Initialize a Project
-Create a new project structure with default chapters and utility scripts:
+
+Create a new Manimera project with the standard directory structure:
+
 ```bash
 manimera init MyProject
 ```
-This creates a hierarchy:
-- `Chapter-000` / `001` / `002`
-  - `assets/`: For your local media files.
-  - `export/`: Where your rendered videos and images go.
-- `scripts/`: Production utility scripts (like cleaning).
 
-### 2. Manage Chapters & Scenes
-Add new chapters or scenes with boilerplate code automatically generated:
+This generates a hierarchy similar to:
+
+* `Chapter-000`, `Chapter-001`, ...
+
+  * `assets/` — Local media files (images, audio, etc.)
+  * `export/` — Rendered videos and images
+* `scripts/` — Utility and workflow scripts
+* Project-level configuration files
+
+---
+
+### 2. Add Chapters & Scenes
+
+Manimera uses a clear `add` command group to create new chapters and scenes with boilerplate code.
+
+#### Add a Chapter
+
 ```bash
-# Add a new chapter
-manimera --add-chapter Introduction
-
-# Add a scene (must be run inside a chapter folder)
-manimera --add-scene MyFirstScene
+manimera add chapter Introduction
 ```
+
+This creates a new chapter directory with the appropriate numbering and structure.
+
+#### Add a Scene
+
+```bash
+# Add a scene inside the current chapter
+manimera add scene MyFirstScene
+
+# Or explicitly specify a chapter number
+manimera add scene MyFirstScene 2
+```
+
+* Scene names must be valid CamelCase Python class names.
+* The chapter number is required if you are not inside a chapter directory.
+
+---
 
 ### 3. Workflow Utilities
-Clean your project or finalize your renders:
+
+Manage build artifacts and finalize your renders easily.
+
 ```bash
-# Remove cache and clean assets
+# Clean cache and export directories
 manimera clean
 
-# Copy the latest render to the 'final' directory with context-aware renaming
-manimera finalize # or use 'manimera mv'
+# Move the latest render to the final output directory
+manimera finalize
+
+# Alias for finalize
+manimera mv
 ```
 
+The `finalize` command automatically selects the most recent render and applies context-aware naming.
+
+---
+
 ### 4. List Project Structure
-See an overview of your project's chapters and scenes:
+
+Display an overview of chapters and scenes in your project:
+
 ```bash
 manimera list
 ```
+
+This is useful for quickly inspecting project organization without navigating directories manually.
 
 ---
 
