@@ -9,10 +9,12 @@ from .clock import Clock
 from .network_tower import NetworkTower
 from .anatomical_eye import AnatomicalEye
 from .feather import Feather
+from .brick import Brick
 
 __all__ = [
     "Clock",
     "NetworkTower",
     "AnatomicalEye",
     "Feather",
+    "Brick",
 ]
