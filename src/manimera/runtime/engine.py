@@ -13,6 +13,10 @@ automatically detect the scene to render if none is explicitly provided.
 from manim import Scene
 
 from .manager import SCENE_MANAGER
+from .settings import SETTINGS, Quality
+from ..terminal.banner import Banner
+from ..terminal.monitor import MONITOR
+from manimera import __version__
 
 # ============================================================
 # STUDIO RENDER CLASS
@@ -41,12 +45,31 @@ class ManimeraRender:
         Args:
             scene (Scene, optional): The scene class to render. Defaults to None.
         """
+        if not SETTINGS._banner_shown:
+            Banner(
+                library_name="Manimera",
+                library_version=__version__,
+                subtext="Mathematical visualization made simple by Senan",
+            )
+            SETTINGS._banner_shown = True
+
         if scene is None:
             scene = SCENE_MANAGER.get_active()
 
         if scene is None:
-            print("No Active Scenes Detected.")
+            MONITOR.set_termination_reason("No Active Scenes Detected.", "red", "✖")
             exit()
 
-        video = scene()
-        video.render()
+        # Ensure a default quality is set before Scene initialization
+        SETTINGS.ensure_quality(Quality.PREMIUM)
+
+        # Print Settings (Ensures we print the latest configuration)
+        SETTINGS.print_settings()
+
+        try:
+            video = scene()
+            video.render()
+
+        except Exception as e:
+            MONITOR.set_termination_reason(str(e), "red", "✖")
+            raise e

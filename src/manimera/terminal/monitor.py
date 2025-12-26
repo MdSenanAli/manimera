@@ -121,19 +121,33 @@ class Monitor:
         elapsed = time.perf_counter() - self._start
         duration = f"{elapsed:.{self._precision}f}s"
 
+        # Determine title based on color
+        if self._termination_color == "green":
+            title = f"Success · {duration}"
+        elif self._termination_color == "yellow":
+            title = f"Halted · {duration}"
+        else:  # red or any other color
+            title = f"Failure · {duration}"
+
+        title = f"{self._termination_icon} {title}"
+
+        # Body contains the termination reason with icon
         text = Text(
-            f"{self._termination_icon}  {self._termination_reason} · {duration}",
+            self._termination_reason,
             style=self._termination_color,
             justify="center",
         )
 
         panel = Panel(
             text,
+            title=title,
+            title_align="left",
             border_style=self._termination_color,
             padding=(0, 2),
         )
 
         self._console.print(panel)
         self._terminate_children()
+
 
 MONITOR = Monitor()

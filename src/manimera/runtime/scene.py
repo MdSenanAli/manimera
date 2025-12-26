@@ -92,25 +92,6 @@ class ManimeraScene(Scene, ABC):
         This is the entry point for Manim to render the scene. It adds the
         watermark and then calls the `create` method implemented by the subclass.
         """
-        # --- Initialization (Banner & Settings) ---
-        # Import dynamically to avoid circular dependencies
-        from .settings import SETTINGS, Quality
-        from ..terminal.banner import Banner
-        from manimera import __version__ # Safe runtime import
-
-        if not SETTINGS._banner_shown:
-            Banner(
-                library_name="Manimera",
-                library_version=__version__,
-                subtext="Mathematical visualization made simple by Senan",
-            )
-            SETTINGS._banner_shown = True
-
-        # Ensure a default quality is set if the user hasn't defined one
-        SETTINGS.ensure_quality(Quality.PREMIUM)
-
-        # Print Settings (Ensures we print the latest configuration)
-        SETTINGS.print_settings()
 
         # Add Watermark
         self.add(self.__watermark("Senan"))

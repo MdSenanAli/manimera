@@ -215,7 +215,7 @@ class Clock(VGroup):
     def get_time(self) -> Tuple[float, float]:
         """
         Get the current time on the clock.
-        
+
         Returns:
             Tuple[float, float]: The current hour and minute.
         """

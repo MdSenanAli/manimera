@@ -6,6 +6,9 @@ interface for creating mathematical visualizations, with a focus on
 production pipelines and ease of use.
 """
 
+# Version
+__version__ = "0.2.6"
+
 # Entry Point To Manimera
 import warnings
 
@@ -20,6 +23,3 @@ from .runtime import *
 from .theme import *
 from .components import *
 from .animations import *
-
-# Version
-__version__ = "0.2.6"
