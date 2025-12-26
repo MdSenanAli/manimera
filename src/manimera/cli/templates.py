@@ -17,13 +17,16 @@ class {class_name}(ManimeraScene):
         text = Tex("Hello, Manimera!")
         self.play(Write(text))
         self.wait()
+
+if __name__ == "__main__":
+    ManimeraRender()
 """
 
 CLEAN_SCRIPT_TEMPLATE = """import shutil
 from pathlib import Path
 from rich.console import Console
 
-def clean_dirs(project_root: str, dirnames: list[str]):
+def clean_dirs(project_root: str, dirnames: list[str], verbose: bool = False):
     \"\"\"Delete all directories matching given names recursively.\"\"\"
     console = Console()
     root = Path(project_root).resolve()
@@ -33,7 +36,8 @@ def clean_dirs(project_root: str, dirnames: list[str]):
         if dirpath.name in dirnames:
             try:
                 shutil.rmtree(dirpath)
-                console.print(f"[green] - {dirpath.relative_to(root)}[/]")
+                if verbose:
+                    console.print(f"[green] - {dirpath.relative_to(root)}[/]")
                 deleted += 1
             except Exception:
                 console.print(f"[red] - {dirpath.relative_to(root)}[/]")
@@ -41,5 +45,5 @@ def clean_dirs(project_root: str, dirnames: list[str]):
     console.print(f"[bold green]Deleted {deleted} directories[/]")
 
 if __name__ == "__main__":
-    clean_dirs(".", ["__pycache__", "export"])
+    clean_dirs(".", ["__pycache__", "export"], verbose=False)
 """

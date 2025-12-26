@@ -21,6 +21,7 @@ from .templates import CLEAN_SCRIPT_TEMPLATE
 # COMMAND HANDLERS
 # ============================================================
 
+
 def init_project(name: str):
     """
     Initialize a new Manimera project.
@@ -37,20 +38,19 @@ def init_project(name: str):
         # Create Project Root
         project_path.mkdir(parents=True)
         (project_path / ".manimera-project").touch()
-        
-        # Create Default Chapters
-        for i in range(3):
-            chapter_name = f"Chapter-{i:03d}"
-            chapter_path = project_path / chapter_name
-            chapter_path.mkdir()
-            (chapter_path / ".manimera-chapter").touch()
-            (chapter_path / "assets").mkdir()
-            (chapter_path / "export").mkdir()
+
+        # Create Default Chapter Introduction
+        chapter_name = "Chapter-001-Introduction"
+        chapter_path = project_path / chapter_name
+        chapter_path.mkdir()
+        (chapter_path / ".manimera-chapter").touch()
+        (chapter_path / "assets").mkdir()
+        (chapter_path / "export").mkdir()
 
         # Create Scripts Directory
         scripts_path = project_path / "scripts"
         scripts_path.mkdir()
-        
+
         # Create Clean Script
         clean_script_path = scripts_path / "clean.py"
         with open(clean_script_path, "w", encoding="utf-8") as f:
@@ -73,19 +73,25 @@ def list_structure():
 
         # Walk through the directory and add nodes to the tree
         # Simplistic approach: just top level chapters
-        chapters = sorted([p for p in root.iterdir() if p.is_dir() and (p / ".manimera-chapter").exists()])
-        
+        chapters = sorted(
+            [
+                p
+                for p in root.iterdir()
+                if p.is_dir() and (p / ".manimera-chapter").exists()
+            ]
+        )
+
         for chapter in chapters:
             chapter_branch = tree.add(f"[bold green]{chapter.name}[/]")
-            
+
             # Count scenes
             scenes = list(chapter.glob("*.py"))
             if scenes:
                 for scene in scenes:
-                     chapter_branch.add(f"[white]{scene.name}[/]")
+                    chapter_branch.add(f"[white]{scene.name}[/]")
             else:
-                 chapter_branch.add("[dim italic]No scenes[/]")
-        
+                chapter_branch.add("[dim italic]No scenes[/]")
+
         CONSOLE.print(tree)
 
     except FileNotFoundError:

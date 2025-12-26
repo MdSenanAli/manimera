@@ -52,6 +52,7 @@ class Monitor:
         self._precision = precision
         self._console = console or Console()
         self._is_windows = platform.system() == "Windows"
+        self._enabled = True  # Monitor is enabled by default
 
         self._termination_reason = "Execution completed"
         self._termination_color = "green"
@@ -64,6 +65,14 @@ class Monitor:
         signal.signal(signal.SIGINT, self._handle_sigint)
         atexit.register(self._handle_exit)
         self._initialized = True
+
+    def disable(self):
+        """
+        Disable the monitor output.
+
+        This is typically called when running via CLI to suppress the exit panel.
+        """
+        self._enabled = False
 
     def set_termination_reason(self, reason: str, color: str = "red", icon: str = "✖"):
         """
@@ -121,32 +130,35 @@ class Monitor:
         elapsed = time.perf_counter() - self._start
         duration = f"{elapsed:.{self._precision}f}s"
 
-        # Determine title based on color
-        if self._termination_color == "green":
-            title = f"Success · {duration}"
-        elif self._termination_color == "yellow":
-            title = f"Halted · {duration}"
-        else:  # red or any other color
-            title = f"Failure · {duration}"
+        # Only display panel if monitor is enabled
+        if self._enabled:
+            # Determine title based on color
+            if self._termination_color == "green":
+                title = f"Success · {duration}"
+            elif self._termination_color == "yellow":
+                title = f"Halted · {duration}"
+            else:  # red or any other color
+                title = f"Failure · {duration}"
 
-        title = f"{self._termination_icon} {title}"
+            title = f"{self._termination_icon} {title}"
 
-        # Body contains the termination reason with icon
-        text = Text(
-            self._termination_reason,
-            style=self._termination_color,
-            justify="center",
-        )
+            # Body contains the termination reason with icon
+            text = Text(
+                self._termination_reason,
+                style=self._termination_color,
+                justify="center",
+            )
 
-        panel = Panel(
-            text,
-            title=title,
-            title_align="left",
-            border_style=self._termination_color,
-            padding=(0, 2),
-        )
+            panel = Panel(
+                text,
+                title=title,
+                title_align="left",
+                border_style=self._termination_color,
+                padding=(0, 2),
+            )
 
-        self._console.print(panel)
+            self._console.print(panel)
+
         self._terminate_children()
 
 
