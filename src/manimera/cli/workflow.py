@@ -31,7 +31,7 @@ def clean_project():
         root = get_project_root()
 
         deleted_pycache = 0
-        cleaned_assets = 0
+        cleaned_export = 0
 
         if not Confirm.ask(
             f"Are you sure you want to clean '__pycache__' and contents of 'export' in [cyan]{root.name}[/]?"
@@ -49,7 +49,7 @@ def clean_project():
                 except Exception:
                     CONSOLE.print(f"[red] - failed {dirpath.relative_to(root)}[/]")
 
-            # Clean assets directory contents only
+            # Clean export directory contents only
             elif dirpath.is_dir() and dirpath.name == "export":
                 for item in dirpath.iterdir():
                     try:
@@ -62,11 +62,11 @@ def clean_project():
                 CONSOLE.print(
                     f"[green] - cleaned contents of {dirpath.relative_to(root)}[/]"
                 )
-                cleaned_assets += 1
+                cleaned_export += 1
 
         print_success(
             f"Removed {deleted_pycache} '__pycache__' directories "
-            f"and cleaned {cleaned_assets} 'assets' directories."
+            f"and cleaned {cleaned_export} 'export' directories."
         )
 
     except FileNotFoundError:
