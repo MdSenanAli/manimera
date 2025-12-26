@@ -12,11 +12,8 @@ boilerplate code for new projects, scenes, and utility scripts.
 DEFAULT_SCENE_TEMPLATE = """from manimera import *
 
 class {class_name}(ManimeraScene):
-    def create(self):
-        # Create your objects here
-        text = Tex("Hello, Manimera!")
-        self.play(Write(text))
-        self.wait()
+    def create(self): ...
+    
 
 if __name__ == "__main__":
     ManimeraRender()

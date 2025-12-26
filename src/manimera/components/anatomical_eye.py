@@ -102,7 +102,7 @@ class AnatomicalEye(VGroup):
             width=self.radius * 0.5,
             height=self.radius,
             fill_opacity=1,
-            fill_color=DARK_BROWN,
+            fill_color=self.eye_color,
             stroke_width=0,
         ).scale(0.75)
         iris.move_to(ellipse.get_center()).shift(RIGHT * self.radius * 0.08)
