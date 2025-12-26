@@ -25,7 +25,7 @@ from .utils import get_project_root, print_success, print_error, print_info, CON
 def clean_project():
     """
     Remove all '__pycache__' directories entirely,
-    and remove contents of 'assets' directories without deleting the directory itself.
+    and remove contents of 'export' directories without deleting the directory itself.
     """
     try:
         root = get_project_root()
@@ -34,7 +34,7 @@ def clean_project():
         cleaned_assets = 0
 
         if not Confirm.ask(
-            f"Are you sure you want to clean '__pycache__' and contents of 'assets' in [cyan]{root.name}[/]?"
+            f"Are you sure you want to clean '__pycache__' and contents of 'export' in [cyan]{root.name}[/]?"
         ):
             print_info("Operation cancelled.")
             return
