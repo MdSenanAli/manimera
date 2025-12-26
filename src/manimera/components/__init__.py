@@ -11,6 +11,7 @@ from .anatomical_eye import AnatomicalEye
 from .feather import Feather
 from .brick import Brick
 from .pendulum import Pendulum
+from .cathedral_lamp import CathedralLamp
 
 __all__ = [
     "Clock",
@@ -19,4 +20,5 @@ __all__ = [
     "Feather",
     "Brick",
     "Pendulum",
+    "CathedralLamp",
 ]
