@@ -10,6 +10,7 @@ from .network_tower import NetworkTower
 from .anatomical_eye import AnatomicalEye
 from .feather import Feather
 from .brick import Brick
+from .pendulum import Pendulum
 
 __all__ = [
     "Clock",
@@ -17,4 +18,5 @@ __all__ = [
     "AnatomicalEye",
     "Feather",
     "Brick",
+    "Pendulum",
 ]
