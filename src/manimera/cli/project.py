@@ -29,6 +29,18 @@ def init_project(name: str):
     Args:
         name (str): The name of the project directory to create.
     """
+    can_create = True
+    try:
+        # Get Project Root
+        project_path = get_project_root()
+        can_create = False
+    except FileNotFoundError:
+        ...
+
+    if not can_create:
+        print_error("Can not create Manimera project inside another Manimera project.")
+        return
+
     project_path = Path.cwd() / name
 
     if project_path.exists():
