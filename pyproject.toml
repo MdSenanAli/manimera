@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "manimera"
-version = "0.4.0"
+version = "0.4.1"
 description = "Manimera is a Python library that makes creating Manim animations easy and fast. Designed for educators, content creators, and anyone making educational videos, Manimera provides a simple interface to animate mathematical concepts, graphics, and visual explanations without a lot of boilerplate code."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -18,7 +18,7 @@ dependencies = [
 manimera = "manimera.cli.main:main"
 
 [tool.bumpver]
-current_version = "0.4.0"
+current_version = "0.4.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit = true
 tag = true
