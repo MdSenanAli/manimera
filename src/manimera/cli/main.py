@@ -39,11 +39,14 @@ def main():
     )
 
     # ========================================================
-    # PROJECT COMMANDS
+    # SUBCOMMANDS
     # ========================================================
 
-    # Check for 'init' as a positional command for standard feel
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # ========================================================
+    # PROJECT COMMANDS
+    # ========================================================
 
     # Init
     init_parser = subparsers.add_parser(
@@ -63,20 +66,35 @@ def main():
     subparsers.add_parser("mv", help="Alias for finalize")
 
     # ========================================================
-    # FLAGS (As requested: --add-chapter, etc.)
+    # ADD COMMANDS (Simplified)
     # ========================================================
 
-    parser.add_argument(
-        "--add-chapter", metavar="NAME", help="Add a new chapter to the project"
-    )
-    parser.add_argument(
-        "--add-scene", metavar="NAME", help="Add a new scene to the current chapter"
+    # Add subcommand group
+    add_parser = subparsers.add_parser("add", help="Add chapters or scenes")
+    add_subparsers = add_parser.add_subparsers(dest="add_type", help="What to add")
+
+    # Add Chapter
+    chapter_parser = add_subparsers.add_parser("chapter", help="Add a new chapter")
+    chapter_parser.add_argument("name", help="Name of the chapter")
+
+    # Add Scene
+    scene_parser = add_subparsers.add_parser("scene", help="Add a new scene")
+    scene_parser.add_argument("name", help="Name of the scene class (CamelCase)")
+    scene_parser.add_argument(
+        "chapter",
+        nargs="?",
+        type=int,
+        default=None,
+        help="Chapter number (required if not inside a chapter directory)",
     )
 
     # Parse
     args = parser.parse_args()
 
-    # Dispatch
+    # ========================================================
+    # DISPATCH
+    # ========================================================
+
     if args.command == "init":
         init_project(args.name)
     elif args.command == "list":
@@ -85,13 +103,14 @@ def main():
         clean_project()
     elif args.command in ["finalize", "mv"]:
         finalize_video()
-
-    # Handle Flags (Prioritized if command is missing)
-    elif args.add_chapter:
-        add_chapter(args.add_chapter)
-    elif args.add_scene:
-        add_scene(args.add_scene)
-
+    elif args.command == "add":
+        if args.add_type == "chapter":
+            add_chapter(args.name)
+        elif args.add_type == "scene":
+            add_scene(args.name, args.chapter)
+        else:
+            # No sub-type specified
+            add_parser.print_help()
     else:
         # If no arguments, print help
         parser.print_help()

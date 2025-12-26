@@ -49,7 +49,11 @@ def init_project(name: str):
 
         # Create Scripts Directory
         scripts_path = project_path / "scripts"
-        scripts_path.mkdir()
+        scripts_path.mkdir(exist_ok=True)
+
+        # Prepare destination: root/final
+        final_dir = project_path / "final"
+        final_dir.mkdir(exist_ok=True)
 
         # Create Clean Script
         clean_script_path = scripts_path / "clean.py"
