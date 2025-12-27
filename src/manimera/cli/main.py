@@ -17,7 +17,7 @@ from rich.console import Console
 from .project import init_project, list_structure
 from .chapter import add_chapter
 from .scene import add_scene
-from .workflow import clean_project, finalize_video
+from .workflow import clean_project, clean_cache, finalize_video
 
 # Import Monitor to disable it for CLI
 from ..terminal.monitor import MONITOR
@@ -60,6 +60,9 @@ def main():
     # Clean
     subparsers.add_parser("clean", help="Clean export and cache directories")
 
+    # Cache
+    subparsers.add_parser("cache", help="Clean cache directories")
+
     # Finalize
     subparsers.add_parser("finalize", help="Move latest video/image to final folder")
     # Alias 'mv' for finalize
@@ -101,6 +104,8 @@ def main():
         list_structure()
     elif args.command == "clean":
         clean_project()
+    elif args.command == "cache":
+        clean_cache()
     elif args.command in ["finalize", "mv"]:
         finalize_video()
     elif args.command == "add":

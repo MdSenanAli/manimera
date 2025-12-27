@@ -11,6 +11,7 @@ export directories and finalizing/renaming rendered videos.
 
 import os
 import shutil
+import tempfile
 from pathlib import Path
 from rich.prompt import Confirm
 
@@ -20,6 +21,30 @@ from .utils import get_project_root, print_success, print_error, print_info, CON
 # ============================================================
 # COMMAND HANDLERS
 # ============================================================
+
+
+def clean_cache(name="manimera_media"):
+    """
+    Remove all data in temporary directories.
+    """
+    try:
+        if not Confirm.ask(
+            f"Are you sure you want to clean 'manimera_media' directory cache?"
+        ):
+            print_info("Operation cancelled.")
+            return
+
+        base_temp = tempfile.gettempdir()
+        media_dir = os.path.join(base_temp, name)
+
+        if os.path.exists(media_dir):
+            shutil.rmtree(media_dir)
+            print_success(f"Removed {media_dir}")
+        else:
+            print_info(f"{media_dir} does not exist.")
+
+    except FileNotFoundError:
+        print_error("Not inside a Manimera project.")
 
 
 def clean_project():
