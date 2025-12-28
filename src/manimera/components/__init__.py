@@ -12,6 +12,7 @@ from .feather import Feather
 from .brick import Brick
 from .pendulum import Pendulum
 from .cathedral_lamp import CathedralLamp
+from .bohr_atom import BohrAtom
 
 __all__ = [
     "Clock",
@@ -21,4 +22,5 @@ __all__ = [
     "Brick",
     "Pendulum",
     "CathedralLamp",
+    "BohrAtom",
 ]
