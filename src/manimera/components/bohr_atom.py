@@ -43,14 +43,14 @@ class BohrAtom(VGroup):
         super().__init__(**kwargs)
 
         # Instance variables
-        self.atom_type = atom_type
-        self.mass_number = atom_type.value[1]
-        self.atomic_number = atom_type.value[0]
-        self.atom_scale = atom_scale
+        self._atom_type = atom_type
+        self._mass_number = atom_type.value[1]
+        self._atomic_number = atom_type.value[0]
+        self._atom_scale = atom_scale
 
         # Shell offset
-        self.shell_offset = 1
-        self.shell_stroke_width = 2
+        self._shell_offset = 1
+        self._shell_stroke_width = 2
 
         # Create Bohr Atom
         self._create_bohr_atom()
@@ -73,22 +73,17 @@ class BohrAtom(VGroup):
         Raises:
             None
         """
-        # Get subatomic particle counts
-        num_electrons = self._get_electrons()
-        num_neutrons = self._get_neutrons()
-        num_protons = self._get_protons()
-
         # Create and add nucleus
-        nucleus = self._create_nucleus()
-        self.add(nucleus)
+        self._nucleus = self._create_nucleus()
+        self.add(self._nucleus)
 
-        # Create and add shells
-        electrons, shells = self._create_electrons()
-        self.add(shells, electrons)
+        # Create and add shells and electrons
+        self._electrons, self._shells = self._create_electrons()
+        self.add(self._shells, self._electrons)
 
         # Scale the atom to fit the screen
-        if self.atom_scale is not None:
-            self.scale_to_fit_width(self.atom_scale)
+        if self._atom_scale is not None:
+            self.scale_to_fit_width(self._atom_scale)
 
         # Return
         return
@@ -137,18 +132,25 @@ class BohrAtom(VGroup):
         # Create shells
         for i in range(num_shells):
             shell = Circle(
-                radius=1 + self.shell_offset * i,
-                stroke_width=self.shell_stroke_width,
+                radius=1 + self._shell_offset * i,
+                stroke_width=self._shell_stroke_width,
                 stroke_color=DARK_GRAY,
             )
             shells.add(shell)
 
         # Create electrons
         for idx, electron_count in enumerate(electron_counts):
+            # Create electron shell
+            electron_shell = VGroup()
+
+            # Create electrons
             for electron_idx in range(electron_count):
                 electron = Dot(radius=0.05, color=WHITE, stroke_width=0)
                 electron.move_to(shells[idx].point_from_proportion(electron_idx / electron_count))
-                electrons.add(electron)
+                electron_shell.add(electron)
+
+            # Add electron shell to electrons
+            electrons.add(electron_shell)
 
         # Return
         return electrons, shells
@@ -285,6 +287,53 @@ class BohrAtom(VGroup):
     def get_mass_number(self) -> Tex:
         """Return the mass number of the atom."""
         return Tex(self.mass_number)
+
+    # PROPERTIES =======================================================================================================
+
+    @property
+    def nucleus(self) -> Dot:
+        """Return the nucleus of the atom."""
+        return self._nucleus
+
+    @property
+    def electrons(self) -> VGroup:
+        """Return the electrons of the atom."""
+        return self._electrons
+
+    @property
+    def shells(self) -> VGroup:
+        """Return the shells of the atom."""
+        return self._shells
+
+    @property
+    def atom_scale(self) -> int:
+        """Return the scale of the atom."""
+        return self._atom_scale
+
+    @property
+    def shell_offset(self) -> int:
+        """Return the offset of the shells."""
+        return self._shell_offset
+
+    @property
+    def shell_stroke_width(self) -> int:
+        """Return the stroke width of the shells."""
+        return self._shell_stroke_width
+
+    @property
+    def atomic_number(self) -> int:
+        """Return the atomic number of the atom."""
+        return self._atomic_number
+
+    @property
+    def mass_number(self) -> int:
+        """Return the mass number of the atom."""
+        return self._mass_number
+
+    @property
+    def atom_type(self) -> AtomType:
+        """Return the atom type."""
+        return self._atom_type
 
 
 # ======================================================================================================================
