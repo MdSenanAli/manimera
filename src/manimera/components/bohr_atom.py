@@ -24,19 +24,6 @@ class BohrAtom(VGroup):
     Bohr's model of the atom.
     """
 
-    # CLASS VARIABLES ==================================================================================================
-
-    # Electron counts per shell (2*n^2)
-    ELECTRONS_PER_SHELL: List[int] = [
-        2,  # Shell 1
-        8,  # Shell 2
-        18,  # Shell 3
-        32,  # Shell 4
-        50,  # Shell 5
-        72,  # Shell 6
-        98,  # Shell 7
-    ]
-
     # INITIALIZATION ===================================================================================================
 
     def __init__(self, atom_type: AtomType, atom_scale: Optional[int] = None, **kwargs) -> None:
