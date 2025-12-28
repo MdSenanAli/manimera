@@ -1,26 +1,32 @@
-"""
-Manimera Library.
+# ======================================================================================================================
+# MANIMERA LIBRARY
+# ======================================================================================================================
 
-Manimera is a wrapper around Manim Community that provides a simplified
-interface for creating mathematical visualizations, with a focus on
-production pipelines and ease of use.
-"""
+# LIBRARY VERSION ======================================================================================================
 
-# Version
 __version__ = "0.4.11"
 
-# Entry Point To Manimera
+# STANDARD IMPORTS =====================================================================================================
+
 import warnings
 
+# Filter Warnings
 warnings.filterwarnings("ignore", category=SyntaxWarning)
 
-# External Libraries
+
+# THIRD PARTY IMPORTS ==================================================================================================
+
 from manim import *
 
-# Local Imports
-from .terminal import *
-from .runtime import *
-from .theme import *
-from .components import *
-from .animations import *
-from .constants import *
+# MANIMERA IMPORTS =====================================================================================================
+
+from manimera.animations import *
+from manimera.components import *
+from manimera.constants import *
+from manimera.runtime import *
+from manimera.terminal import *
+from manimera.theme import *
+
+# ======================================================================================================================
+# END
+# ======================================================================================================================

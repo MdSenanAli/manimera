@@ -1,26 +1,41 @@
-"""
-Manimera Components Package.
+# ======================================================================================================================
+# IMPORTS
+# ======================================================================================================================
 
-This package contains high-level, reusable Manim objects (Mobjects)
-that are built from simpler primitives.
-"""
+# STANDARD IMPORTS =====================================================================================================
 
-from .clock import Clock
-from .network_tower import NetworkTower
-from .anatomical_eye import AnatomicalEye
-from .feather import Feather
-from .brick import Brick
-from .pendulum import Pendulum
-from .cathedral_lamp import CathedralLamp
-from .bohr_atom import BohrAtom
+# <None>
+
+# THIRD PARTY IMPORTS ==================================================================================================
+
+# <None>
+
+# MANIMERA IMPORTS =====================================================================================================
+
+from manimera.components.anatomical_eye import AnatomicalEye
+from manimera.components.bohr_atom import BohrAtom
+from manimera.components.brick import Brick
+from manimera.components.cathedral_lamp import CathedralLamp
+from manimera.components.clock import Clock
+from manimera.components.feather import Feather
+from manimera.components.network_tower import NetworkTower
+from manimera.components.pendulum import Pendulum
+
+# ======================================================================================================================
+# WILDCARD EXPORTS
+# ======================================================================================================================
 
 __all__ = [
-    "Clock",
-    "NetworkTower",
     "AnatomicalEye",
-    "Feather",
-    "Brick",
-    "Pendulum",
-    "CathedralLamp",
     "BohrAtom",
+    "Brick",
+    "CathedralLamp",
+    "Clock",
+    "Feather",
+    "NetworkTower",
+    "Pendulum",
 ]
+
+# ======================================================================================================================
+# END
+# ======================================================================================================================

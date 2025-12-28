@@ -1,20 +1,35 @@
-"""
-Manimera Animations Package.
+# ======================================================================================================================
+# IMPORTS
+# ======================================================================================================================
 
-This package provides custom Animation classes for creating complex
-visual effects and transitions.
-"""
+# STANDARD IMPORTS =====================================================================================================
 
-from .advance_clock_time import AdvanceClockTime
-from .pendulum_oscillation import PendulumOscillation
-from .lamp_glow import LampGlow
-from .fade_reveal import FadeReveal
+# <None>
+
+# THIRD PARTY IMPORTS ==================================================================================================
+
+# <None>
+
+# MANIMERA IMPORTS =====================================================================================================
+
+from manimera.animations.advance_clock_time import AdvanceClockTime
 from manimera.animations.atom_rotate import AtomRotate
+from manimera.animations.fade_reveal import FadeReveal
+from manimera.animations.lamp_glow import LampGlow
+from manimera.animations.pendulum_oscillation import PendulumOscillation
+
+# ======================================================================================================================
+# WILDCARD EXPORTS
+# ======================================================================================================================
 
 __all__ = [
     "AdvanceClockTime",
-    "PendulumOscillation",
-    "LampGlow",
-    "FadeReveal",
     "AtomRotate",
+    "FadeReveal",
+    "LampGlow",
+    "PendulumOscillation",
 ]
+
+# ======================================================================================================================
+# END
+# ======================================================================================================================
