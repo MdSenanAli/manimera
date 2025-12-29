@@ -13,6 +13,7 @@
 # MANIMERA IMPORTS =====================================================================================================
 
 from manimera.components.anatomical_eye import AnatomicalEye
+from manimera.components.atomic_clock import AtomicClock
 from manimera.components.bohr_atom import BohrAtom
 from manimera.components.brick import Brick
 from manimera.components.cathedral_lamp import CathedralLamp
@@ -27,6 +28,7 @@ from manimera.components.pendulum import Pendulum
 
 __all__ = [
     "AnatomicalEye",
+    "AtomicClock",
     "BohrAtom",
     "Brick",
     "CathedralLamp",

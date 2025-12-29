@@ -4,7 +4,6 @@
 
 # STANDARD IMPORTS =====================================================================================================
 
-import copy
 from typing import *
 
 # THIRD PARTY IMPORTS ==================================================================================================
@@ -74,8 +73,6 @@ class BohrAtom(VGroup):
         Raises:
             None
         """
-        self.submobjects = []
-
         # Create and add nucleus
         self._nucleus = self._create_nucleus()
 
@@ -113,7 +110,7 @@ class BohrAtom(VGroup):
         # Return
         return nucleus
 
-    def _create_electrons(self) -> VGroup:
+    def _create_electrons(self) -> Tuple[VGroup, VGroup]:
         """
         Create the shells of the atom.
 
