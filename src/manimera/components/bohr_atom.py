@@ -4,7 +4,7 @@
 
 # STANDARD IMPORTS =====================================================================================================
 
-import uuid
+import copy
 from typing import *
 
 # THIRD PARTY IMPORTS ==================================================================================================
@@ -53,9 +53,6 @@ class BohrAtom(VGroup):
         self._shell_offset = 1
         self._shell_stroke_width = 2
 
-        # UUID
-        self._uuid = uuid.uuid4()
-
         # Create Bohr Atom
         self._create_bohr_atom()
 
@@ -77,13 +74,16 @@ class BohrAtom(VGroup):
         Raises:
             None
         """
+        self.submobjects = []
+
         # Create and add nucleus
         self._nucleus = self._create_nucleus()
-        self.add(self._nucleus)
 
         # Create and add shells and electrons
         self._electrons, self._shells = self._create_electrons()
-        self.add(self._shells, self._electrons)
+
+        # Add nucleus, shells, and electrons
+        self.add(self._nucleus, self._shells, self._electrons)
 
         # Scale the atom to fit the screen
         if self._atom_scale is not None:
@@ -234,54 +234,11 @@ class BohrAtom(VGroup):
         """Return a string representation of the atom."""
         return f"BohrAtom({self.atom_type.name}, Z={self.atomic_number}, A={self.mass_number})"
 
-    # COMPARISON =======================================================================================================
-
-    def __eq__(self, other) -> bool:
-        """Return True if the atoms are equal."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return (
-            self.atom_type == other.atom_type
-            and self.atomic_number == other.atomic_number
-            and self.mass_number == other.mass_number
-            and self._uuid == other._uuid
-        )
-
-    def __ne__(self, other) -> bool:
-        """Return True if the atoms are not equal."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return not self == other
-
-    def __lt__(self, other) -> bool:
-        """Return True if the atom has a lower atomic number."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return self.atomic_number < other.atomic_number
-
-    def __le__(self, other) -> bool:
-        """Return True if the atom has a lower or equal atomic number."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return self.atomic_number <= other.atomic_number
-
-    def __gt__(self, other) -> bool:
-        """Return True if the atom has a higher atomic number."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return self.atomic_number > other.atomic_number
-
-    def __ge__(self, other) -> bool:
-        """Return True if the atom has a higher or equal atomic number."""
-        if not isinstance(other, BohrAtom):
-            return NotImplemented
-        return self.atomic_number >= other.atomic_number
-
     # HASH =============================================================================================================
 
     def __hash__(self) -> int:
         """Return a hash of the atom."""
-        return hash((self.atom_type, self.atomic_number, self.mass_number, self._uuid))
+        return hash((self.atom_type, self.atomic_number, self.mass_number))
 
     # PUBLIC METHODS ===================================================================================================
 
@@ -291,11 +248,11 @@ class BohrAtom(VGroup):
 
     def get_atomic_number(self) -> Tex:
         """Return the atomic number of the atom."""
-        return Tex(self.atomic_number)
+        return Tex(str(self.atomic_number))
 
     def get_mass_number(self) -> Tex:
         """Return the mass number of the atom."""
-        return Tex(self.mass_number)
+        return Tex(str(self.mass_number))
 
     # PROPERTIES =======================================================================================================
 
