@@ -4,6 +4,7 @@
 
 # STANDARD IMPORTS =====================================================================================================
 
+import uuid
 from typing import *
 
 # THIRD PARTY IMPORTS ==================================================================================================
@@ -51,6 +52,9 @@ class BohrAtom(VGroup):
         # Shell offset
         self._shell_offset = 1
         self._shell_stroke_width = 2
+
+        # UUID
+        self._uuid = uuid.uuid4()
 
         # Create Bohr Atom
         self._create_bohr_atom()
@@ -236,7 +240,12 @@ class BohrAtom(VGroup):
         """Return True if the atoms are equal."""
         if not isinstance(other, BohrAtom):
             return NotImplemented
-        return self.atom_type == other.atom_type
+        return (
+            self.atom_type == other.atom_type
+            and self.atomic_number == other.atomic_number
+            and self.mass_number == other.mass_number
+            and self._uuid == other._uuid
+        )
 
     def __ne__(self, other) -> bool:
         """Return True if the atoms are not equal."""
@@ -272,7 +281,7 @@ class BohrAtom(VGroup):
 
     def __hash__(self) -> int:
         """Return a hash of the atom."""
-        return hash((self.atom_type, self.atomic_number, self.mass_number))
+        return hash((self.atom_type, self.atomic_number, self.mass_number, self._uuid))
 
     # PUBLIC METHODS ===================================================================================================
 

@@ -74,7 +74,10 @@ class AtomRotate(Animation):
 
         # Rotate electrons
         for i, electron in enumerate(electrons):
-            electron.rotate(direction * self._orbital_speed * TAU * dt * self._decay**i)
+            electron.rotate(
+                direction * self._orbital_speed * TAU * dt * self._decay**i,
+                about_point=self.mobject.nucleus.get_center(),
+            )
 
         # Return
         return
