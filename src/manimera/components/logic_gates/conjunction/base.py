@@ -27,13 +27,20 @@ class ConjunctionBase(BaseGate):
         vobj = VMobject()
 
         arc = Arc(start_angle=-PI / 2, angle=PI, radius=0.5, arc_center=RIGHT * 0.5, num_components=20)
-
+        POINTS = 15
         vobj.start_new_path(UP * 0.5)
-        vobj.add_line_to(DOWN * 0.5)
-        vobj.add_line_to(DOWN * 0.5 + RIGHT * 0.5)
+
+        for i in range(POINTS):
+            vobj.add_line_to(DOWN * interpolate(-0.5, 0.5, (i + 1) / POINTS))
+
+        for i in range(POINTS // 2):
+            vobj.add_line_to(DOWN * 0.5 + RIGHT * interpolate(0, 0.5, (i + 1) / (POINTS // 2)))
+
         vobj.add_points_as_corners(arc.get_points())
-        vobj.add_line_to(UP * 0.5 + RIGHT * 0.5)
-        vobj.add_line_to(UP * 0.5)
+
+        for i in range(POINTS // 2):
+            vobj.add_line_to(UP * 0.5 + RIGHT * interpolate(0.5, 0, (i + 1) / (POINTS // 2)))
+
         vobj.close_path()
 
         vobj.set_stroke(
