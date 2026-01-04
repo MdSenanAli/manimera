@@ -83,7 +83,7 @@ class BaseGate(VGroup, ABC):
             return
 
         if self.output_port is not None:
-            circle = Circle(radius=0.1, stroke_color=self.stroke_color, stroke_width=self.stroke_width)
+            circle = Circle(radius=0.1, stroke_color=self.stroke_color, stroke_width=self.stroke_width).rotate(PI)
             circle.next_to(self.output_port, RIGHT, aligned_edge=LEFT, buff=offset)
             self.add(circle)
             self.output_port.next_to(circle, RIGHT, aligned_edge=RIGHT, buff=0)

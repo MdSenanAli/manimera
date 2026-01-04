@@ -30,20 +30,22 @@ class DisjunctionBase(BaseGate):
         """
         vobj = VMobject()
 
-        arc = Arc(start_angle=-PI / 6, angle=PI / 3, radius=1, arc_center=LEFT * 3**0.5 / 2, num_components=20)
+        arc = Arc(start_angle=PI / 6, angle=-PI / 3, radius=1, arc_center=LEFT * 3**0.5 / 2, num_components=20)
         exclusive_arc = None
 
-        upper_arc = ArcBetweenPoints(UP * 0.5, RIGHT, angle=-PI / 6, num_components=20)
-        lower_arc = ArcBetweenPoints(RIGHT, DOWN * 0.5, angle=-PI / 6, num_components=20)
+        lower_arc = ArcBetweenPoints(DOWN * 0.5, RIGHT, angle=PI / 6, num_components=20)
+        upper_arc = ArcBetweenPoints(RIGHT, UP * 0.5, angle=PI / 6, num_components=20)
 
-        vobj.start_new_path(DOWN * 0.5)
+        vobj.start_new_path(UP * 0.5)
         vobj.add_points_as_corners(arc.get_points())
-        vobj.add_points_as_corners(upper_arc.get_points())
         vobj.add_points_as_corners(lower_arc.get_points())
+        vobj.add_points_as_corners(upper_arc.get_points())
         vobj.close_path()
 
         if self.exclusive:
-            exclusive_arc = arc.copy().shift(LEFT * 0.2)
+            exclusive_arc = Arc(
+                start_angle=-PI / 6, angle=PI / 3, radius=1, arc_center=LEFT * (3**0.5 / 2 + 0.2), num_components=20
+            )
             vobj.add(exclusive_arc)
 
         vobj.set_stroke(
