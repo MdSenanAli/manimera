@@ -106,6 +106,18 @@ class BaseGate(VGroup, ABC):
         """
         return self.output_port.get_center()
 
+    def get_input_port(self, index: int) -> Dot:
+        """
+        Returns the input port at the given index.
+        """
+        return self.input_ports[index]
+
+    def get_output_port(self) -> Dot:
+        """
+        Returns the output port.
+        """
+        return self.output_port
+
 
 # ======================================================================================================================
 # BASE GATE CLASS END
