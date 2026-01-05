@@ -12,24 +12,41 @@ from manim import *
 
 # MANIMERA IMPORTS =====================================================================================================
 
-from manimera.components.logic_gates.conjunction.base import ConjunctionBase
+from manimera.components.logic_gates.base import BaseGate
 
 # ======================================================================================================================
-# AND CLASS
+# VOID CLASS
 # ======================================================================================================================
 
 
-class AND(ConjunctionBase):
-    def __init__(self, input_ports: int = 2):
-        super().__init__(input_ports=input_ports, negated=False)
+class VOID(BaseGate):
+    def __init__(self, **kwargs):
+        super().__init__(input_ports=1, negated=False)
+
+    def _create_gate(self) -> None:
+        """
+        Creates the VOID gate.
+        """
+        dot = Dot(radius=self.port_radius, color=self.stroke_color)
+
+        # Input and Output Ports
+        self.input_ports.add(dot.copy())
+
+        # Create Output Port
+        self.output_port = dot.copy()
+
+        return dot
 
     def _evaluate(self) -> float:
         """
         Abstract method to evaluate the gate.
         """
-        return min([self.input_port_signal_values[i].get_value() for i in range(self.input_ports_count)])
+        return self.input_port_signal_values[0].get_value()
+
+    def toggle(self):
+        return self.input_port_signal_values[0].animate.set_value(1 - self.input_port_signal_values[0].get_value())
 
 
 # ==================================================================================================================
-# AND CLASS END
+# VOID CLASS END
 # ==================================================================================================================

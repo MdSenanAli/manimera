@@ -46,10 +46,13 @@ class BaseGate(VGroup, ABC):
         self.input_ports_count = input_ports
         self.output_ports_count = 1
 
+        # Input Port Signal Values
+        self.input_port_signal_values: Group[ValueTracker] = Group(*[ValueTracker(0) for _ in range(input_ports)])
+
         # Port Position Tracker
         self.input_ports: VGroup[Dot] = VGroup()
-        self.output_ports: VGroup[Dot] = VGroup()
         self.output_port: Dot = None
+        self.used_ports: int = -1
 
         # Instance variables
         self.gate = self._create_gate()
@@ -58,7 +61,7 @@ class BaseGate(VGroup, ABC):
         self._negate_output()
 
         # Move to origin
-        self.add(self.gate, self.input_ports, self.output_ports)
+        self.add(self.gate, self.input_ports, self.output_port)
         self.move_to(ORIGIN)
 
         # Return
@@ -70,6 +73,13 @@ class BaseGate(VGroup, ABC):
     def _create_gate(self) -> None:
         """
         Abstract method to create the gate.
+        """
+        ...
+
+    @abstractmethod
+    def _evaluate(self) -> None:
+        """
+        Abstract method to evaluate the gate.
         """
         ...
 
@@ -94,23 +104,12 @@ class BaseGate(VGroup, ABC):
 
     # GETTERS ==========================================================================================================
 
-    def get_input_port_position(self, index: int) -> tuple[float, float, float]:
+    def get_input_port(self) -> Tuple[Dot, int]:
         """
         Returns the input port at the given index.
         """
-        return self.input_ports[index].get_center()
-
-    def get_output_port_position(self) -> tuple[float, float, float]:
-        """
-        Returns the output port.
-        """
-        return self.output_port.get_center()
-
-    def get_input_port(self, index: int) -> Dot:
-        """
-        Returns the input port at the given index.
-        """
-        return self.input_ports[index]
+        self.used_ports += 1
+        return self.input_ports[self.used_ports], self.used_ports
 
     def get_output_port(self) -> Dot:
         """

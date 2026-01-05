@@ -13,8 +13,9 @@
 # MANIMERA IMPORTS =====================================================================================================
 
 from manimera.components.logic_gates.conjunction import AND, NAND
-from manimera.components.logic_gates.unary import NOT, BUFFER
+from manimera.components.logic_gates.unary import NOT, BUFFER, VOID
 from manimera.components.logic_gates.disjunction import OR, NOR, XOR, XNOR
+from manimera.components.logic_gates.wire import WIRE
 
 # ======================================================================================================================
 # WILDCARD EXPORTS
@@ -32,6 +33,10 @@ __all__ = [
     "NOR",
     "XOR",
     "XNOR",
+    # Void Gate
+    "VOID",
+    # Wire
+    "WIRE",
 ]
 
 # ======================================================================================================================

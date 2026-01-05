@@ -23,6 +23,12 @@ class NOT(UnaryBase):
     def __init__(self):
         super().__init__(input_ports=1, negated=True)
 
+    def _evaluate(self) -> float:
+        """
+        Abstract method to evaluate the gate.
+        """
+        return 1 - self.input_port_signal_values[0].get_value()
+
 
 # ==================================================================================================================
 # NOT CLASS END

@@ -21,7 +21,7 @@ from manimera.components.clock import Clock
 from manimera.components.feather import Feather
 from manimera.components.network_tower import NetworkTower
 from manimera.components.pendulum import Pendulum
-from manimera.components.logic_gates import AND, NAND, NOT, BUFFER, OR, NOR, XOR, XNOR
+from manimera.components.logic_gates import AND, NAND, NOT, BUFFER, OR, NOR, XOR, XNOR, WIRE, VOID
 
 # ======================================================================================================================
 # WILDCARD EXPORTS
@@ -46,6 +46,10 @@ __all__ = [
     "NOR",  # Logical NOR Gate
     "XOR",  # Logical XOR Gate
     "XNOR",  # Logical XNOR Gate
+    # Void Gate
+    "VOID",
+    # Wire
+    "WIRE",
 ]
 
 # ======================================================================================================================

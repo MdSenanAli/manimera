@@ -23,6 +23,12 @@ class OR(DisjunctionBase):
     def __init__(self, input_ports: int = 2):
         super().__init__(input_ports=input_ports, exclusive=False, negated=False)
 
+    def _evaluate(self) -> float:
+        """
+        Abstract method to evaluate the gate.
+        """
+        return max([self.input_port_signal_values[i].get_value() for i in range(self.input_ports_count)])
+
 
 # ==================================================================================================================
 # OR CLASS END

@@ -14,6 +14,7 @@
 
 from manimera.components.logic_gates.unary.not_gate import NOT
 from manimera.components.logic_gates.unary.buffer_gate import BUFFER
+from manimera.components.logic_gates.unary.void_gate import VOID
 
 # ======================================================================================================================
 # WILDCARD EXPORTS
@@ -22,6 +23,7 @@ from manimera.components.logic_gates.unary.buffer_gate import BUFFER
 __all__ = [
     "NOT",
     "BUFFER",
+    "VOID",
 ]
 
 # ======================================================================================================================

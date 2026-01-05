@@ -23,6 +23,12 @@ class NAND(ConjunctionBase):
     def __init__(self, input_ports: int = 2):
         super().__init__(input_ports=input_ports, negated=True)
 
+    def _evaluate(self) -> float:
+        """
+        Abstract method to evaluate the gate.
+        """
+        return 1 - min([self.input_port_signal_values[i].get_value() for i in range(self.input_ports_count)])
+
 
 # ==================================================================================================================
 # NAND CLASS END

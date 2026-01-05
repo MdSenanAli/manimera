@@ -23,6 +23,12 @@ class BUFFER(UnaryBase):
     def __init__(self):
         super().__init__(input_ports=1, negated=False)
 
+    def _evaluate(self) -> float:
+        """
+        Abstract method to evaluate the gate.
+        """
+        return self.input_port_signal_values[0].get_value()
+
 
 # ==================================================================================================================
 # BUFFER CLASS END

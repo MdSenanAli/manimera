@@ -23,6 +23,13 @@ class XNOR(DisjunctionBase):
     def __init__(self, input_ports: int = 2):
         super().__init__(input_ports=input_ports, exclusive=True, negated=True)
 
+    def _evaluate(self) -> float:
+        """
+        Abstract method to evaluate the gate.
+        """
+        non_zero_values = [value.get_value() for value in self.input_port_signal_values if value.get_value() != 0]
+        return 1 - max(non_zero_values) if len(non_zero_values) % 2 == 1 else 1
+
 
 # ==================================================================================================================
 # XNOR CLASS END

@@ -61,7 +61,7 @@ class DisjunctionBase(BaseGate):
             factor = (2 * i + 1) / (2 * self.input_ports_count)
 
             if self.exclusive:
-                dot.move_to(exclusive_arc.point_from_proportion(factor))
+                dot.move_to(exclusive_arc.point_from_proportion(1 - factor))
             else:
                 dot.move_to(arc.point_from_proportion(factor))
 
