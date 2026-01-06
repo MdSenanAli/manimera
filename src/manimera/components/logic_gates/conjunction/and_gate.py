@@ -4,6 +4,7 @@
 
 # STANDARD IMPORTS =====================================================================================================
 
+import math
 from typing import *
 
 # THIRD PARTY IMPORTS ==================================================================================================
@@ -27,7 +28,7 @@ class AND(ConjunctionBase):
         """
         Abstract method to evaluate the gate.
         """
-        return min([self.input_port_signal_values[i].get_value() for i in range(self.input_ports_count)])
+        return math.prod([self.input_port_signal_values[i].get_value() for i in range(self.input_ports_count)])
 
 
 # ==================================================================================================================

@@ -43,8 +43,12 @@ class VOID(BaseGate):
         """
         return self.input_port_signal_values[0].get_value()
 
-    def toggle(self):
-        return self.input_port_signal_values[0].animate.set_value(1 - self.input_port_signal_values[0].get_value())
+    def toggle(self, run=1):
+        return Succession(
+            self.input_port_signal_values[0].animate.set_value(1 - self.input_port_signal_values[0].get_value()),
+            Wait(run / 2),
+            run_time=run / 2,
+        )
 
 
 # ==================================================================================================================

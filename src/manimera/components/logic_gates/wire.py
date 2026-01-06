@@ -46,7 +46,15 @@ class WIRE(VMobject):
         p0 = self.src_port.get_center()
         p1 = self.dst_port.get_center()
 
-        self.signal_value.set_value(self.src_gate._evaluate())
+        # Read from cached output (all wires read from previous frame's values)
+        cached_output = self.src_gate.output_value_cache.get_value()
+        self.signal_value.set_value(cached_output)
+
+        # Update cache for next frame (after reading)
+        current_output = self.src_gate._evaluate()
+        self.src_gate.output_value_cache.set_value(current_output)
+
+        # Propagate to destination gate
         self.dst_gate.input_port_signal_values[self.dst_port_index].set_value(self.signal_value.get_value())
 
         self.set_stroke(width=self.stroke_width, color=interpolate(DARK_GRAY, YELLOW, self.signal_value.get_value()))

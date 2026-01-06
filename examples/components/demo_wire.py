@@ -1,6 +1,6 @@
 from manimera import *
 
-# SETTINGS.set_quality(Quality.MINIMAL)
+SETTINGS.set_quality(Quality.STANDARD)
 
 
 class DemoWire(ManimeraScene):

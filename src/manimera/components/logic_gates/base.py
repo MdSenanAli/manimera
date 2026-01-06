@@ -27,7 +27,7 @@ class BaseGate(VGroup, ABC):
 
     # INITIALIZATION ===================================================================================================
 
-    def __init__(self, input_ports: int = 2, negated: bool = False, port_radius: float = 0, **kwargs):
+    def __init__(self, input_ports: int = 2, negated: bool = False, port_radius: float = 0.0, **kwargs):
         """
         Initialize the BaseGate.
 
@@ -49,6 +49,9 @@ class BaseGate(VGroup, ABC):
         # Input Port Signal Values
         self.input_port_signal_values: Group[ValueTracker] = Group(*[ValueTracker(0) for _ in range(input_ports)])
 
+        # Output Value Cache (prevents race conditions during wire updates)
+        self.output_value_cache: ValueTracker = ValueTracker(0)
+
         # Port Position Tracker
         self.input_ports: VGroup[Dot] = VGroup()
         self.output_port: Dot = None
@@ -60,8 +63,12 @@ class BaseGate(VGroup, ABC):
         # Negate Output
         self._negate_output()
 
+        # Initialize output cache with current evaluated value
+        self.output_value_cache.set_value(self._evaluate())
+
         # Move to origin
         self.add(self.gate, self.input_ports, self.output_port)
+        self.scale(0.5, True)
         self.move_to(ORIGIN)
 
         # Return
