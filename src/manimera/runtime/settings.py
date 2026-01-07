@@ -37,9 +37,11 @@ class Quality(Enum):
     """
     Enumeration for render quality levels.
     """
+
     MINIMAL = "minimal"
     STANDARD = "standard"
     PREMIUM = "premium"
+    SHORTS = "shorts"
 
 
 # ============================================================
@@ -57,6 +59,7 @@ class RenderProfile:
         height (int): The pixel height of the render.
         fps (int): The frames per second of the render.
     """
+
     width: int
     height: int
     fps: int
@@ -70,6 +73,7 @@ PROFILES: Final[Dict[Quality, RenderProfile]] = {
     Quality.MINIMAL: RenderProfile(1280, 720, 15),
     Quality.STANDARD: RenderProfile(1920, 1080, 30),
     Quality.PREMIUM: RenderProfile(3840, 2160, 60),
+    Quality.SHORTS: RenderProfile(1080, 1920, 60),
 }
 
 # ============================================================
@@ -157,20 +161,20 @@ class Settings:
 
         # Resolve scene name
         scene_name = self._get_last_scene_instance(caller_file)
-        
+
         # Convert to snake_case for filename
-        snake_name = re.sub(r'(?<!^)(?=[A-Z])', '_', scene_name).lower()
+        snake_name = re.sub(r"(?<!^)(?=[A-Z])", "_", scene_name).lower()
 
         # Resolution string
         resolution = f"{profile.width}x{profile.height}"
-        
+
         # Structure: export/{SCENE_NAME}/{RESOLUTION}/
         export_dir = os.path.join(caller_dir, "export", scene_name, resolution)
         os.makedirs(export_dir, exist_ok=True)
 
         # Sorted, human-readable timestamp: YYYY-MM-DD_HH-MM-SS
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        
+
         # Filename: snake_name-timestamp
         filename = f"{snake_name}-{timestamp}"
 
@@ -207,7 +211,7 @@ class Settings:
                         "ManimeraScene",
                     }:
                         return node.name
-        
+
         MONITOR.set_termination_reason(f"No ManimeraScene class found in file: {Path(caller_file).name}.", "red", "✖")
         exit()
 
@@ -232,22 +236,17 @@ class Settings:
         """
         Print the currently applied render settings to the terminal.
         """
-        # If set_quality hasn't been called, we can't print meaningful profile info 
+        # If set_quality hasn't been called, we can't print meaningful profile info
         # unless we track the 'current_level'. Let's assume set_quality sets it.
         if not hasattr(self, "_current_level") or not hasattr(self, "_current_profile"):
-             return
+            return
 
-        print_render_settings(
-            self._current_level.name, 
-            self._current_profile, 
-            config, 
-            config.output_file
-        )
+        print_render_settings(self._current_level.name, self._current_profile, config, config.output_file)
 
     def ensure_quality(self, level: Quality, caching: bool = True):
         """
         Ensure a quality level is set. If already set, this does nothing.
-        
+
         Args:
              level (Quality): Default quality level to apply if none set.
              caching (bool): Default caching setting.
@@ -268,7 +267,7 @@ class Settings:
         """
         self._quality_set = True
         profile = self.profiles[level]
-        
+
         # Store for printing later
         self._current_level = level
         self._current_profile = profile
