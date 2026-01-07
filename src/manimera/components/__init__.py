@@ -21,6 +21,7 @@ from manimera.components.clock import Clock
 from manimera.components.feather import Feather
 from manimera.components.network_tower import NetworkTower
 from manimera.components.pendulum import Pendulum
+from manimera.components.silhouette import Silhouette
 from manimera.components.logic_gates import AND, NAND, NOT, BUFFER, OR, NOR, XOR, XNOR, WIRE, VOID, SugiyamaLayout
 
 # ======================================================================================================================
@@ -37,6 +38,7 @@ __all__ = [
     "Feather",
     "NetworkTower",
     "Pendulum",
+    "Silhouette",
     # Logic Gates
     "AND",  # Logical AND Gate
     "NAND",  # Logical NAND Gate
