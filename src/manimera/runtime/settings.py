@@ -228,6 +228,13 @@ class Settings:
         os.makedirs(media_dir, exist_ok=True)
         config.media_dir = media_dir
 
+    def _set_shorts_settings(self):
+        """
+        Sets render settings for shorts.
+        """
+        config.frame_width = 8
+        config.frame_height = 14.22
+
     # ========================================================
     # PUBLIC INTERFACE
     # ========================================================
@@ -283,6 +290,10 @@ class Settings:
 
         # Temp media directory with constant name
         self._set_temp_media_dir()
+
+        # Special case for shorts
+        if level == Quality.SHORTS:
+            self._set_shorts_settings()
 
 
 SETTINGS = Settings()
